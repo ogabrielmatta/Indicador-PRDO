@@ -1,6 +1,6 @@
 <html lang="pt-BR"><head>
 <meta charset="UTF-8">
-<meta name="version" content="202603131116">
+<meta name="version" content="202603131123">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
@@ -356,17 +356,15 @@ footer {
   </div>
   <div class="h-right">
     <div class="date-tag">Dados atualizados por Gabriel Matta</div>
-    <button class="btn-upload" onclick="solicitarSenha()">
-      <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+    <button class="btn-upload" onclick="solicitarSenha()" title="Atualizar Planilha">
+      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
         <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"></path>
       </svg>
-      Atualizar Planilha
     </button>
-    <button class="btn-upload" id="btn-export" onclick="exportarDashboard()" style="background: rgb(45, 106, 79); display: flex;">
-      <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+    <button class="btn-upload" id="btn-export" onclick="exportarDashboard()" title="Exportar Dashboard" style="background: rgb(45, 106, 79); display: flex;">
+      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
         <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"></path>
       </svg>
-      Exportar Dashboard
     </button>
     <input type="file" id="fileInput" accept=".xlsm,.xlsx" onchange="onUpload(event)">
   </div>
@@ -547,14 +545,14 @@ footer {
     <p style="font-family:'Barlow Condensed',sans-serif; font-size:17px; font-weight:700; color:#111; margin:0 0 6px;">Autenticação</p>
     <p style="font-size:13px; color:#888; margin:0 0 16px;">Digite a senha para atualizar a planilha.</p>
     <input id="auth-input" type="password" placeholder="Senha" onkeydown="if(event.key==='Enter') confirmarSenha()" style="width:100%; padding:9px 12px; border:1px solid #E3E5EA; border-radius:6px; font-size:14px; font-family:'Barlow',sans-serif; outline:none; margin-bottom:8px;">
-    <p id="auth-error" style="display: none; font-size: 12px; color: rgb(200, 16, 46); margin: 0px 0px 12px;">Senha incorreta. Tente novamente.</p>
+    <p id="auth-error" style="display:none; font-size:12px; color:#C8102E; margin:0 0 12px;">Senha incorreta. Tente novamente.</p>
     <div style="display:flex; gap:10px; justify-content:flex-end; margin-top:8px;">
       <button onclick="fecharModal()" style="padding:8px 18px; border:1px solid #E3E5EA; border-radius:6px; background:#fff; font-size:14px; font-family:'Barlow',sans-serif; cursor:pointer;">Cancelar</button>
       <button onclick="confirmarSenha()" style="padding:8px 18px; border:none; border-radius:6px; background:#C8102E; color:#fff; font-size:14px; font-weight:600; font-family:'Barlow',sans-serif; cursor:pointer;">Confirmar</button>
     </div>
   </div>
 </div>
-<div class="toast show" id="toast">✅ Dashboard atualizado! Clique em "Exportar Dashboard" para salvar.</div>
+<div class="toast" id="toast">✅ Dashboard atualizado! Clique em "Exportar Dashboard" para salvar.</div>
 <script>
 /* ── DATA ── */
 let D = {"today":"13/03/2026","kpis":{"tasks":27848,"gt7":334,"valor":1765016.4924773036,"linhas":13503},"aging":{"areas":["CAB.","EST.","TRM.","PAI.","MOT.","SPR.","ROTA","CDM.","TQE.","GR-Z"],"f1":[1004,1019,839,502,354,243,58,24,38,15],"f2":[14,2,51,0,3,88,23,18,0,4],"f3":[34,0,3,8,3,7,13,24,28,1],"f4":[74,0,43,15,4,7,10,15,1,44]},"bv":{"F2":{"name":"PRODMOG","qtd":0,"valor":1357605.2945708015},"F7":{"name":"MOTMOG","qtd":0,"valor":407411.19790650206}},"mov":{"areas":["SC1.","MOT.","TQE.","CDM.","SPR.","CAB.","MPR.","EST.","LM3.","LM1.","PAI.","LM2.","PT1.","PT3.","VIRK","TRM.","CVT."],"qtd":[5726,754,30,28,27.54,24,22,22,15,13,11,5.640000000000001,5,5,4,2,1],"custo":[192.30770000000004,2939.0615,12.369,969.8477000000001,11177.7402,1240.0589,3146.389,334.7741,484.8929,0.6408,130.0852,27.3047,599.2422,2070.1413000000002,5752,207.5955,4639.3248]}};
