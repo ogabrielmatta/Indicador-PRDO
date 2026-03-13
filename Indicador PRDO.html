@@ -1,5 +1,9 @@
 <html lang="pt-BR"><head>
 <meta charset="UTF-8">
+<meta name="version" content="202603131116">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>PRDO – AGCO Mogi</title>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700&amp;family=Barlow:wght@400;500;600&amp;display=swap" rel="stylesheet">
@@ -481,7 +485,7 @@ footer {
         <div class="card-ttl">Quantidade de PRDO por Área</div>
       </div>
       <div class="bar-wrap" id="mov-wrap">
-        <canvas id="movCanvas" class="bar" width="531" height="624" style="width: 531px; height: 624px;"></canvas>
+        <canvas id="movCanvas" class="bar" width="630" height="624" style="width: 630px; height: 624px;"></canvas>
       </div>
     </div>
 
@@ -526,7 +530,7 @@ footer {
         <div class="card-ttl">Custo por Área</div>
       </div>
       <div class="bar-wrap" id="custo-wrap">
-        <canvas id="custoCanvas" class="bar" width="722" height="300" style="width: 722px; height: 300px;"></canvas>
+        <canvas id="custoCanvas" class="bar" width="855" height="300" style="width: 855px; height: 300px;"></canvas>
       </div>
     </div>
 
@@ -543,14 +547,14 @@ footer {
     <p style="font-family:'Barlow Condensed',sans-serif; font-size:17px; font-weight:700; color:#111; margin:0 0 6px;">Autenticação</p>
     <p style="font-size:13px; color:#888; margin:0 0 16px;">Digite a senha para atualizar a planilha.</p>
     <input id="auth-input" type="password" placeholder="Senha" onkeydown="if(event.key==='Enter') confirmarSenha()" style="width:100%; padding:9px 12px; border:1px solid #E3E5EA; border-radius:6px; font-size:14px; font-family:'Barlow',sans-serif; outline:none; margin-bottom:8px;">
-    <p id="auth-error" style="display:none; font-size:12px; color:#C8102E; margin:0 0 12px;">Senha incorreta. Tente novamente.</p>
+    <p id="auth-error" style="display: none; font-size: 12px; color: rgb(200, 16, 46); margin: 0px 0px 12px;">Senha incorreta. Tente novamente.</p>
     <div style="display:flex; gap:10px; justify-content:flex-end; margin-top:8px;">
       <button onclick="fecharModal()" style="padding:8px 18px; border:1px solid #E3E5EA; border-radius:6px; background:#fff; font-size:14px; font-family:'Barlow',sans-serif; cursor:pointer;">Cancelar</button>
       <button onclick="confirmarSenha()" style="padding:8px 18px; border:none; border-radius:6px; background:#C8102E; color:#fff; font-size:14px; font-weight:600; font-family:'Barlow',sans-serif; cursor:pointer;">Confirmar</button>
     </div>
   </div>
 </div>
-<div class="toast" id="toast">✅ Dashboard atualizado! Clique em "Exportar Dashboard" para salvar.</div>
+<div class="toast show" id="toast">✅ Dashboard atualizado! Clique em "Exportar Dashboard" para salvar.</div>
 <script>
 /* ── DATA ── */
 let D = {"today":"13/03/2026","kpis":{"tasks":27848,"gt7":334,"valor":1765016.4924773036,"linhas":13503},"aging":{"areas":["CAB.","EST.","TRM.","PAI.","MOT.","SPR.","ROTA","CDM.","TQE.","GR-Z"],"f1":[1004,1019,839,502,354,243,58,24,38,15],"f2":[14,2,51,0,3,88,23,18,0,4],"f3":[34,0,3,8,3,7,13,24,28,1],"f4":[74,0,43,15,4,7,10,15,1,44]},"bv":{"F2":{"name":"PRODMOG","qtd":0,"valor":1357605.2945708015},"F7":{"name":"MOTMOG","qtd":0,"valor":407411.19790650206}},"mov":{"areas":["SC1.","MOT.","TQE.","CDM.","SPR.","CAB.","MPR.","EST.","LM3.","LM1.","PAI.","LM2.","PT1.","PT3.","VIRK","TRM.","CVT."],"qtd":[5726,754,30,28,27.54,24,22,22,15,13,11,5.640000000000001,5,5,4,2,1],"custo":[192.30770000000004,2939.0615,12.369,969.8477000000001,11177.7402,1240.0589,3146.389,334.7741,484.8929,0.6408,130.0852,27.3047,599.2422,2070.1413000000002,5752,207.5955,4639.3248]}};
@@ -750,19 +754,30 @@ function toast(msg) {
 
 /* ── EXPORTAR DASHBOARD ── */
 function exportarDashboard() {
+  const agora = new Date();
+  const versao = `${agora.getFullYear()}${String(agora.getMonth()+1).padStart(2,'0')}${String(agora.getDate()).padStart(2,'0')}${String(agora.getHours()).padStart(2,'0')}${String(agora.getMinutes()).padStart(2,'0')}`;
   const dataStr = JSON.stringify(D);
-  const html = document.documentElement.outerHTML;
-  const updated = html.replace(
+  let html = document.documentElement.outerHTML;
+
+  // Embute os dados atualizados
+  html = html.replace(
     /let D = \{[\s\S]*?\};\s*\n\s*\/\* ── FORMATTERS/,
     `let D = ${dataStr};\n\n/* ── FORMATTERS`
   );
-  const blob = new Blob([updated], { type: 'text/html;charset=utf-8' });
+
+  // Injeta meta tag de cache-busting com versão baseada em data/hora
+  html = html.replace(
+    '<meta charset="UTF-8">',
+    `<meta charset="UTF-8">\n<meta name="version" content="${versao}">\n<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">\n<meta http-equiv="Pragma" content="no-cache">\n<meta http-equiv="Expires" content="0">`
+  );
+
+  const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
   a.download = 'Indicador PRDO.html';
   a.click();
   URL.revokeObjectURL(a.href);
-  toast('✅ Dashboard exportado! Suba o arquivo no GitHub.');
+  toast('✅ Exportado! Suba o arquivo no GitHub e o link já estará atualizado.');
 }
 
 /* ── FILE UPLOAD ── */
