@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PRDO – AGCO Mogi</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<style>
+/* Seus estilos CSS permanecem os mesmos */
+:root {
+  --red:    #C8102E;
+  --dark:   #111;
+  --mid:    #444;
+  --light:  #888;
+  --bg:     #F2F3F5;
+  --white:  #fff;
+  --border: #E3E5EA;
+  --gold:   #F5A800;
+  --gray:   #5A5A5A;
+  --steel:  #3A3A3A;
+  --shadow: 0 1px 4px rgba(0,0,0,0.08), 0 4px 16px rgba(0,0,0,0.05);
+  --radius: 10px;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--bg);
+  color: var(--dark);
+  padding: 20px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  background: var(--white);
+  padding: 20px;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.upload-btn {
+  background: var(--red);
+  color: var(--white);
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: 600;
+  border: none;
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.card {
+  background: var(--white);
+  padding: 20px;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+th, td {
+  text-align: left;
+  padding: 12px;
+  border-bottom: 1px solid var(--border);
+}
+
+th { background: #f9f9f9; font-size: 12px; color: var(--light); text-transform: uppercase; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>INDICADOR DE PRDO</h1>
+  <input type="file" id="fileInput" accept=".xlsx, .xls" style="display:none" onchange="onUpload(event)">
+  <button class="upload-btn" onclick="document.getElementById('fileInput').click()">Atualizar Planilha</button>
+</div>
+
+<div id="dashboardContent" class="dashboard-grid">
+  <div class="card">
+    <p style="color:var(--light)">Aguardando upload de dados...</p>
+  </div>
+</div>
+
+<script>
+// 1. FUNÇÃO PARA RENDERIZAR O DASHBOARD
+function renderDashboard(data) {
+    const container = document.getElementById('dashboardContent');
+    if (!data || data.length === 0) return;
+
+    let html = '';
+    
+    // Exemplo de Card de Resumo (KPI)
+    html += `
+      <div class="card">
+        <h3>Resumo Geral</h3>
+        <p>Total de Linhas Processadas: <strong>${data.length}</strong></p>
+      </div>
+    `;
+
+    // Exemplo de Tabela
+    html += `
+      <div class="card" style="grid-column: 1 / -1;">
+        <h3>Dados da Planilha</h3>
+        <table>
+          <thead>
+            <tr>
+              ${Object.keys(data[0]).map(key => `<th>${key}</th>`).join('')}
+            </tr>
+          </thead>
+          <tbody>
+            ${data.slice(0, 20).map(row => `
+              <tr>
+                ${Object.values(row).map(val => `<td>${val}</td>`).join('')}
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+        ${data.length > 20 ? '<p style="margin-top:10px; color:gray">Mostrando apenas as primeiras 20 linhas...</p>' : ''}
+      </div>
+    `;
+
+    container.innerHTML = html;
+}
+
+// 2. FUNÇÃO DE UPLOAD E SALVAMENTO (localStorage)
+function onUpload(event) {
+    const file = event.target.files[0];
+    const reader = new FileReader();
+
+    reader.onload = function(e) {
+        const data = new Uint8Array(e.target.result);
+        const workbook = XLSX.read(data, { type: 'array' });
+        const firstSheetName = workbook.SheetNames[0];
+        const worksheet = workbook.Sheets[firstSheetName];
+        const jsonData = XLSX.utils.sheet_to_json(worksheet);
+
+        // SALVA NO NAVEGADOR
+        localStorage.setItem('dadosPRDO', JSON.stringify(jsonData));
+        
+        // RENDERIZA NA TELA
+        renderDashboard(jsonData);
+        alert('Dashboard atualizado com sucesso!');
+    };
+
+    reader.readAsArrayBuffer(file);
+}
+
+// 3. FUNÇÃO QUE RODA AO ABRIR A PÁGINA (RECUPERA OS DADOS)
+window.addEventListener('load', () => {
+    const dadosSalvos = localStorage.getItem('dadosPRDO');
+    
+    if (dadosSalvos) {
+        const dadosConvertidos = JSON.parse(dadosSalvos);
+        renderDashboard(dadosConvertidos);
+        console.log("Dados carregados da memória local.");
+    }
+});
+</script>
+
+</body>
+</html>
