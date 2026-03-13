@@ -1,10 +1,8 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
+<html lang="pt-BR"><head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>PRDO – AGCO Mogi</title>
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700&amp;family=Barlow:wght@400;500;600&amp;display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -356,9 +354,15 @@ footer {
     <div class="date-tag">Dados atualizados por Gabriel Matta</div>
     <button class="btn-upload" onclick="solicitarSenha()">
       <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
-        <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/>
+        <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"></path>
       </svg>
       Atualizar Planilha
+    </button>
+    <button class="btn-upload" id="btn-export" onclick="exportarDashboard()" style="background: rgb(45, 106, 79); display: flex;">
+      <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+        <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"></path>
+      </svg>
+      Exportar Dashboard
     </button>
     <input type="file" id="fileInput" accept=".xlsm,.xlsx" onchange="onUpload(event)">
   </div>
@@ -369,24 +373,24 @@ footer {
   <div class="kpis">
     <div class="kpi red">
       <div class="kpi-lbl">Tarefas Pendentes</div>
-      <div class="kpi-val" id="kv1">—</div>
+      <div class="kpi-val" id="kv1">27.848</div>
 
       <div class="kpi-ico">📋</div>
     </div>
     <div class="kpi amber">
       <div class="kpi-lbl">Tarefas Acima de 30 Dias</div>
-      <div class="kpi-val" id="kv2">—</div>
+      <div class="kpi-val" id="kv2">334</div>
       <div class="kpi-sub">Requerem atenção</div>
       <div class="kpi-ico">⚠️</div>
     </div>
     <div class="kpi gray">
       <div class="kpi-lbl">Quantidade de Linhas</div>
-      <div class="kpi-val" id="kv3">—</div>
+      <div class="kpi-val" id="kv3">13.503</div>
       <div class="kpi-ico">📦</div>
     </div>
     <div class="kpi steel">
       <div class="kpi-lbl">Valor Atual</div>
-      <div class="kpi-val sm" id="kv4">—</div>
+      <div class="kpi-val sm" id="kv4">R$ 1,77 Mi</div>
       <div class="kpi-ico">💰</div>
     </div>
   </div>
@@ -408,7 +412,67 @@ footer {
             <th>Total</th>
           </tr>
         </thead>
-        <tbody id="tbl-body"></tbody>
+        <tbody id="tbl-body"><tr>
+      <td><strong>CAB.</strong></td>
+      <td><span class="bdg b1">1.004</span></td>
+      <td><span class="bdg b2">14</span></td>
+      <td><span class="bdg b3">34</span></td>
+      <td><span class="bdg b4">74</span></td>
+      <td><strong>1.126</strong></td></tr><tr>
+      <td><strong>EST.</strong></td>
+      <td><span class="bdg b1">1.019</span></td>
+      <td><span class="bdg b2">2</span></td>
+      <td><span class="bdg b3">0</span></td>
+      <td><span class="bdg b4">0</span></td>
+      <td><strong>1.021</strong></td></tr><tr>
+      <td><strong>TRM.</strong></td>
+      <td><span class="bdg b1">839</span></td>
+      <td><span class="bdg b2">51</span></td>
+      <td><span class="bdg b3">3</span></td>
+      <td><span class="bdg b4">43</span></td>
+      <td><strong>936</strong></td></tr><tr>
+      <td><strong>PAI.</strong></td>
+      <td><span class="bdg b1">502</span></td>
+      <td><span class="bdg b2">0</span></td>
+      <td><span class="bdg b3">8</span></td>
+      <td><span class="bdg b4">15</span></td>
+      <td><strong>525</strong></td></tr><tr>
+      <td><strong>MOT.</strong></td>
+      <td><span class="bdg b1">354</span></td>
+      <td><span class="bdg b2">3</span></td>
+      <td><span class="bdg b3">3</span></td>
+      <td><span class="bdg b4">4</span></td>
+      <td><strong>364</strong></td></tr><tr>
+      <td><strong>SPR.</strong></td>
+      <td><span class="bdg b1">243</span></td>
+      <td><span class="bdg b2">88</span></td>
+      <td><span class="bdg b3">7</span></td>
+      <td><span class="bdg b4">7</span></td>
+      <td><strong>345</strong></td></tr><tr>
+      <td><strong>ROTA</strong></td>
+      <td><span class="bdg b1">58</span></td>
+      <td><span class="bdg b2">23</span></td>
+      <td><span class="bdg b3">13</span></td>
+      <td><span class="bdg b4">10</span></td>
+      <td><strong>104</strong></td></tr><tr>
+      <td><strong>CDM.</strong></td>
+      <td><span class="bdg b1">24</span></td>
+      <td><span class="bdg b2">18</span></td>
+      <td><span class="bdg b3">24</span></td>
+      <td><span class="bdg b4">15</span></td>
+      <td><strong>81</strong></td></tr><tr>
+      <td><strong>TQE.</strong></td>
+      <td><span class="bdg b1">38</span></td>
+      <td><span class="bdg b2">0</span></td>
+      <td><span class="bdg b3">28</span></td>
+      <td><span class="bdg b4">1</span></td>
+      <td><strong>67</strong></td></tr><tr>
+      <td><strong>GR-Z</strong></td>
+      <td><span class="bdg b1">15</span></td>
+      <td><span class="bdg b2">4</span></td>
+      <td><span class="bdg b3">1</span></td>
+      <td><span class="bdg b4">44</span></td>
+      <td><strong>64</strong></td></tr></tbody>
       </table>
     </div>
 
@@ -417,7 +481,7 @@ footer {
         <div class="card-ttl">Quantidade de PRDO por Área</div>
       </div>
       <div class="bar-wrap" id="mov-wrap">
-        <canvas id="movCanvas" class="bar"></canvas>
+        <canvas id="movCanvas" class="bar" width="531" height="624" style="width: 531px; height: 624px;"></canvas>
       </div>
     </div>
 
@@ -433,11 +497,27 @@ footer {
         <div class="donut-wrap">
           <canvas id="donutCanvas" width="180" height="180"></canvas>
           <div class="donut-center">
-            <div class="donut-v" id="donut-total">—</div>
+            <div class="donut-v" id="donut-total">R$ 1,77 Mi</div>
             <div class="donut-l">Total R$</div>
           </div>
         </div>
-        <div class="sl" id="stock-list"></div>
+        <div class="sl" id="stock-list">
+      <div>
+        <div class="sl-head">
+          <span class="sl-name" style="color:#C8102E">PRODMOG</span>
+          <span class="sl-val">R$ 1,36 Mi</span>
+        </div>
+        <div class="sl-meta">0 un · 76.9%</div>
+        <div class="pbar"><div class="pfill" style="width:76.9%;background:#C8102E"></div></div>
+      </div>
+      <div>
+        <div class="sl-head">
+          <span class="sl-name" style="color:#5A5A5A">MOTMOG</span>
+          <span class="sl-val">R$ 407,4 k</span>
+        </div>
+        <div class="sl-meta">0 un · 23.1%</div>
+        <div class="pbar"><div class="pfill" style="width:23.1%;background:#5A5A5A"></div></div>
+      </div></div>
       </div>
     </div>
 
@@ -446,7 +526,7 @@ footer {
         <div class="card-ttl">Custo por Área</div>
       </div>
       <div class="bar-wrap" id="custo-wrap">
-        <canvas id="custoCanvas" class="bar"></canvas>
+        <canvas id="custoCanvas" class="bar" width="722" height="300" style="width: 722px; height: 300px;"></canvas>
       </div>
     </div>
 
@@ -456,15 +536,13 @@ footer {
 
 <footer>
   <span>AGCO Corporation · Indicador PRDO · Setor de Inventário</span>
-  <span class="date-tag">📅 Atualizado em <b id="dateLbl">—</b></span>
+  <span class="date-tag">📅 Atualizado em <b id="dateLbl">13/03/2026</b></span>
 </footer>
-<div id="auth-modal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.45); z-index:200; align-items:center; justify-content:center;">
+<div id="auth-modal" style="display: none; position: fixed; inset: 0px; background: rgba(0, 0, 0, 0.45); z-index: 200; align-items: center; justify-content: center;">
   <div style="background:#fff; border-radius:12px; padding:28px 32px; width:320px; box-shadow:0 8px 32px rgba(0,0,0,0.18);">
     <p style="font-family:'Barlow Condensed',sans-serif; font-size:17px; font-weight:700; color:#111; margin:0 0 6px;">Autenticação</p>
     <p style="font-size:13px; color:#888; margin:0 0 16px;">Digite a senha para atualizar a planilha.</p>
-    <input id="auth-input" type="password" placeholder="Senha"
-      onkeydown="if(event.key==='Enter') confirmarSenha()"
-      style="width:100%; padding:9px 12px; border:1px solid #E3E5EA; border-radius:6px; font-size:14px; font-family:'Barlow',sans-serif; outline:none; margin-bottom:8px;">
+    <input id="auth-input" type="password" placeholder="Senha" onkeydown="if(event.key==='Enter') confirmarSenha()" style="width:100%; padding:9px 12px; border:1px solid #E3E5EA; border-radius:6px; font-size:14px; font-family:'Barlow',sans-serif; outline:none; margin-bottom:8px;">
     <p id="auth-error" style="display:none; font-size:12px; color:#C8102E; margin:0 0 12px;">Senha incorreta. Tente novamente.</p>
     <div style="display:flex; gap:10px; justify-content:flex-end; margin-top:8px;">
       <button onclick="fecharModal()" style="padding:8px 18px; border:1px solid #E3E5EA; border-radius:6px; background:#fff; font-size:14px; font-family:'Barlow',sans-serif; cursor:pointer;">Cancelar</button>
@@ -472,29 +550,10 @@ footer {
     </div>
   </div>
 </div>
-<div class="toast" id="toast"></div>
+<div class="toast" id="toast">✅ Dashboard atualizado! Clique em "Exportar Dashboard" para salvar.</div>
 <script>
 /* ── DATA ── */
-let D = {
-  today: "12/03/2026",
-  kpis: { tasks: 23051, gt7: 453, valor: 2473340.02, linhas: 10601 },
-  aging: {
-    areas: ["CAB.","CVT.","EST.","LM2.","MOT.","PAI.","ROTA","SPR.","TRM."],
-    f1:    [766,   17,   1295,  16,   10301, 185,  275,  498,  1338],
-    f2:    [129,   4,    183,   19,   320,   0,    256,  189,  17  ],
-    f3:    [73,    0,    0,     9.6,  40,    30,   100,  14,   8   ],
-    f4:    [171,   0,    0,     4,    11,    31,   83,   37,   116.4]
-  },
-  bv: {
-    F2: { name: 'PRODMOG', qtd: 27774.16, valor: 1387219.22 },
-    F7: { name: 'MOTMOG',  qtd: 11984.66, valor: 1086120.79 }
-  },
-  mov: {
-    areas: ["SC1.","MOT.","EST.","SPR.","MPR.","CDM.","LM1.","PAI.","PT3.","VIRK","CAB.","LM3.","USI.","PT1."],
-    qtd:   [3668, 1011, 202, 30.2, 18, 17, 14, 7, 5, 4, 3, 3, 2, 1],
-    custo: [40.05, 472.35, 270.83, 1562.44, 1554.40, 41.28, 0.64, 35.64, 0, 0, 0, 0, 0, 0]
-  }
-};
+let D = {"today":"13/03/2026","kpis":{"tasks":27848,"gt7":334,"valor":1765016.4924773036,"linhas":13503},"aging":{"areas":["CAB.","EST.","TRM.","PAI.","MOT.","SPR.","ROTA","CDM.","TQE.","GR-Z"],"f1":[1004,1019,839,502,354,243,58,24,38,15],"f2":[14,2,51,0,3,88,23,18,0,4],"f3":[34,0,3,8,3,7,13,24,28,1],"f4":[74,0,43,15,4,7,10,15,1,44]},"bv":{"F2":{"name":"PRODMOG","qtd":0,"valor":1357605.2945708015},"F7":{"name":"MOTMOG","qtd":0,"valor":407411.19790650206}},"mov":{"areas":["SC1.","MOT.","TQE.","CDM.","SPR.","CAB.","MPR.","EST.","LM3.","LM1.","PAI.","LM2.","PT1.","PT3.","VIRK","TRM.","CVT."],"qtd":[5726,754,30,28,27.54,24,22,22,15,13,11,5.640000000000001,5,5,4,2,1],"custo":[192.30770000000004,2939.0615,12.369,969.8477000000001,11177.7402,1240.0589,3146.389,334.7741,484.8929,0.6408,130.0852,27.3047,599.2422,2070.1413000000002,5752,207.5955,4639.3248]}};
 
 /* ── FORMATTERS ── */
 const N   = n => new Intl.NumberFormat('pt-BR').format(Math.round(n));
@@ -689,6 +748,23 @@ function toast(msg) {
   setTimeout(() => el.classList.remove('show'), 3200);
 }
 
+/* ── EXPORTAR DASHBOARD ── */
+function exportarDashboard() {
+  const dataStr = JSON.stringify(D);
+  const html = document.documentElement.outerHTML;
+  const updated = html.replace(
+    /let D = \{[\s\S]*?\};\s*\n\s*\/\* ── FORMATTERS/,
+    `let D = ${dataStr};\n\n/* ── FORMATTERS`
+  );
+  const blob = new Blob([updated], { type: 'text/html;charset=utf-8' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'Indicador PRDO.html';
+  a.click();
+  URL.revokeObjectURL(a.href);
+  toast('✅ Dashboard exportado! Suba o arquivo no GitHub.');
+}
+
 /* ── FILE UPLOAD ── */
 function onUpload(e) {
   const file = e.target.files[0];
@@ -790,7 +866,8 @@ function onUpload(e) {
         }
       };
       renderAll();
-      toast('✅ Dashboard atualizado!');
+      document.getElementById('btn-export').style.display = 'flex';
+      toast('✅ Dashboard atualizado! Clique em "Exportar Dashboard" para salvar.');
     } catch (err) { toast('❌ Erro: ' + err.message); }
   };
   reader.readAsArrayBuffer(file);
@@ -913,5 +990,6 @@ window.addEventListener('resize', () => {
     null, '#333', true);
 });
 </script>
-</body>
-</html>
+
+
+</body></html>
